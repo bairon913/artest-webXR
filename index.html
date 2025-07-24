@@ -56,14 +56,10 @@
       // AV-7
       const loader = new GLTFLoader();
 
-loader.load( 'models/AV-7.glb', function ( gltf ) {
-
+loader.load( 'models/AV-7/AV-7.gltf', function ( gltf ) {
   scene.add( gltf.scene );
-
 }, undefined, function ( error ) {
-
   console.error( error );
-
 } );
 
       // Controles
