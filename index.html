@@ -1,119 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>three.js webgl - GLTFloader</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link type="text/css" rel="stylesheet" href="main.css">
-	</head>
+  <head>
+    <meta charset="utf-8" />
+    <title>Three.js Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: sans-serif;
+        background-color: #000;
+      }
+    </style>
+  </head>
 
-	<body>
-		<div id="info">
-			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> - GLTFLoader<br />
-			Battle Damaged Sci-fi Helmet by
-			<a href="https://sketchfab.com/theblueturtle_" target="_blank" rel="noopener">theblueturtle_</a><br />
-			<a href="https://hdrihaven.com/hdri/?h=royal_esplanade" target="_blank" rel="noopener">Royal Esplanade</a> from <a href="https://hdrihaven.com/" target="_blank" rel="noopener">HDRI Haven</a>
-		</div>
+  <body>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./build/three.module.js",
+          "three/addons/": "./jsm/"
+        }
+      }
+    </script>
 
-		<script type="importmap">
-			{
-				"imports": {
-					"three": "../build/three.module.js",
-					"three/addons/": "./jsm/"
-				}
-			}
-		</script>
+    <script type="module">
+      import * as THREE from 'three';
+      import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-		<script type="module">
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x202020);
 
-			import * as THREE from 'three';
+      const camera = new THREE.PerspectiveCamera(
+        60,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        100
+      );
+      camera.position.set(2, 2, 5);
 
-			import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-			import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-			import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      document.body.appendChild(renderer.domElement);
 
-			let camera, scene, renderer;
+      // Luz
+      const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+      scene.add(ambient);
 
-			init();
+      const directional = new THREE.DirectionalLight(0xffffff, 0.8);
+      directional.position.set(5, 5, 5);
+      scene.add(directional);
 
-			function init() {
+      // Cubo
+      const geometry = new THREE.BoxGeometry();
+      const material = new THREE.MeshStandardMaterial({ color: 0x00ffaa });
+      const cube = new THREE.Mesh(geometry, material);
+      scene.add(cube);
 
-				const container = document.createElement( 'div' );
-				document.body.appendChild( container );
+      // Controles
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
 
-				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.25, 20 );
-				camera.position.set( - 1.8, 0.6, 2.7 );
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
 
-				scene = new THREE.Scene();
+      // Animación
+      function animate() {
+        requestAnimationFrame(animate);
+        cube.rotation.y += 0.005;
+        controls.update();
+        renderer.render(scene, camera);
+      }
 
-				new RGBELoader()
-					.setPath( 'textures/equirectangular/' )
-					.load( 'royal_esplanade_1k.hdr', function ( texture ) {
-
-						texture.mapping = THREE.EquirectangularReflectionMapping;
-
-						scene.background = texture;
-						scene.environment = texture;
-
-						render();
-
-						// model
-
-						const loader = new GLTFLoader().setPath( 'models/gltf/DamagedHelmet/glTF/' );
-						loader.load( 'DamagedHelmet.gltf', async function ( gltf ) {
-
-							const model = gltf.scene;
-
-							// wait until the model can be added to the scene without blocking due to shader compilation
-
-							await renderer.compileAsync( model, camera, scene );
-
-							scene.add( model );
-
-							render();
-			
-						} );
-
-					} );
-
-				renderer = new THREE.WebGLRenderer( { antialias: true } );
-				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				renderer.toneMapping = THREE.ACESFilmicToneMapping;
-				renderer.toneMappingExposure = 1;
-				container.appendChild( renderer.domElement );
-
-				const controls = new OrbitControls( camera, renderer.domElement );
-				controls.addEventListener( 'change', render ); // use if there is no animation loop
-				controls.minDistance = 2;
-				controls.maxDistance = 10;
-				controls.target.set( 0, 0, - 0.2 );
-				controls.update();
-
-				window.addEventListener( 'resize', onWindowResize );
-
-			}
-
-			function onWindowResize() {
-
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
-
-				renderer.setSize( window.innerWidth, window.innerHeight );
-
-				render();
-
-			}
-
-			//
-
-			function render() {
-
-				renderer.render( scene, camera );
-
-			}
-
-		</script>
-
-	</body>
+      animate();
+    </script>
+  </body>
 </html>
