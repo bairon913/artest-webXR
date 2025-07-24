@@ -79,7 +79,6 @@ loader.load( 'models/AV-7.glb', function ( gltf ) {
       // Animación
       function animate() {
         requestAnimationFrame(animate);
-        loader.rotation.y += 0.005;
         controls.update();
         renderer.render(scene, camera);
       }
