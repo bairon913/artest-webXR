@@ -19,7 +19,7 @@ scene.add(light);
 const loader = new GLTFLoader();
 
 // Modelo 1
-loader.load('models/modelo1.glb', gltf => {
+loader.load('models/AV-7.glb', gltf => {
   const model1 = gltf.scene;
   model1.position.set(1, 0, -1);  // Coordenadas X, Y, Z
   scene.add(model1);
