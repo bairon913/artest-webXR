@@ -623,42 +623,42 @@
 		{
 			"mimeType":"image/jpeg",
 			"name":"transparente",
-			"uri":"transparente.jpg"
+			"uri":"Texturas/transparente.jpg"
 		},
 		{
 			"mimeType":"image/jpeg",
 			"name":"gris oscuro",
-			"uri":"gris%20oscuro.jpg"
+			"uri":"Texturas/gris%20oscuro.jpg"
 		},
 		{
 			"mimeType":"image/jpeg",
 			"name":"gris",
-			"uri":"gris.jpg"
+			"uri":"Texturas/gris.jpg"
 		},
 		{
 			"mimeType":"image/jpeg",
 			"name":"amarillo",
-			"uri":"amarillo.jpg"
+			"uri":"Texturas/amarillo.jpg"
 		},
 		{
 			"mimeType":"image/jpeg",
 			"name":"rojo oscuro",
-			"uri":"rojo%20oscuro.jpg"
+			"uri":"Texturas/rojo%20oscuro.jpg"
 		},
 		{
 			"mimeType":"image/jpeg",
 			"name":"negro",
-			"uri":"negro.jpg"
+			"uri":"Texturas/negro.jpg"
 		},
 		{
 			"mimeType":"image/jpeg",
 			"name":"color p\u00edel",
-			"uri":"color%20p%C3%ADel.jpg"
+			"uri":"Texturas/color%20p%C3%ADel.jpg"
 		},
 		{
 			"mimeType":"image/jpeg",
 			"name":"dardo",
-			"uri":"dardo.jpg"
+			"uri":"Texturas/dardo.jpg"
 		}
 	],
 	"accessors":[
